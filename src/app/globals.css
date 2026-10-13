@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0b0d;
+  --color-panel: #141418;
+  --color-raised: #1c1c22;
+  --color-line: #2a2a33;
+  --color-muted: #8a8a98;
+  --color-fg: #f2f2f5;
+  --color-accent: #ffb547;
+  --color-accent-ink: #1a1206;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html, body { background: var(--color-ink); color: var(--color-fg); }
+body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--color-accent); color: var(--color-accent-ink); }
+
+.scrollbar-thin { scrollbar-width: thin; scrollbar-color: var(--color-line) transparent; }
+
+/* shimmer for in-progress renders */
+@keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+.shimmer {
+  background: linear-gradient(110deg, #17171c 30%, #24242c 50%, #17171c 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* ---- Mock "video": camera-motion presets rendered as transforms over a still ---- */
+.motion { animation-duration: var(--dur, 5s); animation-iteration-count: infinite; animation-timing-function: ease-in-out; transform-origin: center; will-change: transform; }
+.motion.paused { animation-play-state: paused; }
+.motion-push-in   { animation-name: push-in; }
+.motion-pull-out  { animation-name: pull-out; }
+.motion-pan-left  { animation-name: pan-left; }
+.motion-crane-up  { animation-name: crane-up; }
+.motion-orbit     { animation-name: orbit; }
+.motion-crash-zoom{ animation-name: crash-zoom; animation-timing-function: cubic-bezier(.7,0,.2,1); }
+.motion-handheld  { animation-name: handheld; animation-timing-function: linear; }
+.motion-whip      { animation-name: whip; animation-timing-function: cubic-bezier(.8,0,.2,1); }
+.motion-dutch     { animation-name: dutch; }
+.motion-float     { animation-name: float; }
+.motion-vertigo   { animation-name: vertigo; }
+.motion-static    { animation-name: static; }
+
+@keyframes push-in   { from { transform: scale(1.02); } to { transform: scale(1.28); } }
+@keyframes pull-out  { from { transform: scale(1.35); } to { transform: scale(1.02); } }
+@keyframes pan-left  { from { transform: scale(1.25) translateX(8%); } to { transform: scale(1.25) translateX(-8%); } }
+@keyframes crane-up  { from { transform: scale(1.25) translateY(-8%); } to { transform: scale(1.25) translateY(8%); } }
+@keyframes orbit     { 0% { transform: scale(1.3) translateX(7%) rotate(-2deg); } 100% { transform: scale(1.3) translateX(-7%) rotate(2deg); } }
+@keyframes crash-zoom{ 0%,35% { transform: scale(1.02); } 55%,100% { transform: scale(1.7); } }
+@keyframes handheld  {
+  0% { transform: scale(1.12) translate(0,0) rotate(0); } 20% { transform: scale(1.12) translate(-1%,.6%) rotate(-.4deg); }
+  40% { transform: scale(1.12) translate(.8%,-.8%) rotate(.3deg); } 60% { transform: scale(1.12) translate(-.5%,.9%) rotate(.5deg); }
+  80% { transform: scale(1.12) translate(1%,.2%) rotate(-.3deg); } 100% { transform: scale(1.12) translate(0,0) rotate(0); }
+}
+@keyframes whip      { 0%,40% { transform: scale(1.3) translateX(10%); filter: blur(0); } 50% { filter: blur(6px); } 60%,100% { transform: scale(1.3) translateX(-10%); filter: blur(0); } }
+@keyframes dutch     { from { transform: scale(1.3) rotate(-5deg); } to { transform: scale(1.3) rotate(5deg); } }
+@keyframes float     { 0%,100% { transform: scale(1.12) translateY(2%); } 50% { transform: scale(1.12) translateY(-2%); } }
+@keyframes vertigo   { 0% { transform: scale(1.0); filter: none; } 50% { transform: scale(1.45) ; } 100% { transform: scale(1.0); } }
+@keyframes static    { from { transform: scale(1.04); } to { transform: scale(1.05); } }
+
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise .25s ease-out both; }
+.group:hover .motion.paused { animation-play-state: running; }
